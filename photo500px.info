@@ -1,0 +1,10 @@
+; $Id: photo5000px.info,v 1.0  $
+name =  500px Api Module
+description = In this module,Get Latest Photo List from 500px website by specific user.Contributed by <a href="http://www.winminsoe.me/">winminsoe</a>
+package = 500px
+core = 7.x    
+
+; Information added by drupal.org packaging script on 2010-08-11
+version = "7.14"
+project = "drupal"
+datestamp = "1281559292"

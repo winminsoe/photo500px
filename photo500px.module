@@ -1,0 +1,116 @@
+<?php
+// $Id: photo5000px.module,v 1.103.2.2 2009/11/06 07:36:34 goba Exp $
+/**
+ * @file
+ * Enables the use of 500px API
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function photo500px_help($path, $arg) {
+  switch ($path) {
+    case 'admin/content/photo500px':
+      $output = '<p>'. t('Get Latetst Photo from 500px website by specific user.') .'</p>';
+      
+      return $output;
+  }
+}  
+
+/**
+* Implementation of hook_init
+*/
+function photo500px_init() { 
+   drupal_add_css(drupal_get_path('module', 'photo500px') . '/photo500px.css'); 
+}
+
+function photo500px_menu(){
+  $items = array();
+  
+  $items['admin/config/development/photo500px'] = array(
+    'title' => '500px website API Settings',
+    'description' => 'Settings for api,username from 500px',    
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('photo500px_settings_form'),
+    'file' => 'photo500px.admin.inc',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer site configuration'),
+  );  
+  
+  
+  return $items;
+}
+
+/**
+ * Implementation of hook_perm
+ */
+ 
+function photo500px_perm() {
+  return array('access site-wide photo500px form', 'administer site-wide photo500px form');
+  
+}
+
+/*** 
+* Setting up Block info
+* 
+*/
+function photo500px_block_info()
+{
+  
+  $blocks['photo500px_block'] = array(
+    
+    'info' => t('500px Photo Block'),
+    'cache' => DRUPAL_CACHE_PER_ROLE, // default
+  );
+ 
+
+  return $blocks;
+}
+
+/*** 
+* Trigger before the Block view
+*/
+function photo500px_block_view($delta=''){
+    switch ($delta) {
+    case 'photo500px_block':
+      
+      $block['subject'] = '';
+      $block['content'] = photo500px_display_block();
+      break;
+    
+  }
+  return $block;
+}
+
+/**
+* @desc Block for CBM API display block
+*/
+function photo500px_display_block(){
+  return theme('photo500px_api');   
+}
+
+/**
+ * Implementation of hook_theme()
+ */
+function photo500px_theme() {
+  return array(
+    'photo500px_api' => array(
+      'arguments' => array('rows' => NULL),
+      'template' => 'photo500px_block',
+    ),
+    
+  );
+}
+
+/**
+* @desc 
+*/
+function template_preprocess_photo500px_block(&$variables) {
+  global $base_url, $language;                  
+  
+  
+  $variables['base_url'] = $base_url;
+  $variables['language'] = $language;
+  $variables['head'] = drupal_get_html_head();
+}
+

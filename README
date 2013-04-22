@@ -1,0 +1,9 @@
+This lightweight module provides a simple 500px photos block for a given username.
+Get Latetst Photo from 500px website for a given username.
+
+Currently, only one default block is provided and is configurable via the blocks admin interface. 
+To set up the default block, go to Admin > Structure > Block. Then enable and configure the default block.
+
+The configuration form resides at admin/config/development/photo500px.
+
+This module will never provide advanced 500px integration like OAuth.
